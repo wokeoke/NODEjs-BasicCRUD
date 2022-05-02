@@ -2,7 +2,7 @@
 
 ---
 
-##### Video Tutorial
+#### Video Tutorial
 
 ```properties
 Complete CRUD Application with Node, Express & MongoDB
@@ -12,13 +12,13 @@ https://www.youtube.com/watch?v=W1Kttu53qTg&t=5293s
 
 ---
 
-##### Install Dependencies
+#### Install Dependencies
 
 ```properties
 npm install
 ```
 
-##### Start Server
+#### Start Server
 
 ```properties
 npm start
@@ -26,7 +26,7 @@ npm start
 
 ---
 
-##### config.env
+#### config.env
 
 ```properties
 PORT=3000
@@ -34,7 +34,7 @@ PORT=3000
 
 ---
 
-##### Project Structure
+#### Project Structure
 
 ```sh
 root
@@ -59,7 +59,7 @@ root
 
 ---
 
-##### HTTP Server
+#### HTTP Server
 
 ```js
 server.js;
@@ -87,7 +87,7 @@ app.listen(PORT, () => {
 
 ---
 
-##### Modules
+#### Modules
 
 ```js
 server.js;
@@ -109,4 +109,51 @@ app.set('view engine', 'ejs');
 app.use('/css', express.static(path.resolve(__dirname, './assets/css')));
 app.use('/img', express.static(path.resolve(__dirname, './assets/img')));
 app.use('/js', express.static(path.resolve(__dirname, './assets/js')));
+```
+
+---
+
+#### Views
+
+- Render index.ejs
+
+```js
+server.js;
+
+.
+.
+app.get('/', (req, res) => {
+  res.render('index');
+});
+```
+
+- Direct to "views" Folder
+- **Create index.ejs**
+- Check the file on localhost
+
+```html
+index.ejs;
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Application</title>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header id="header">
+      <nav>
+        <div class="container">
+          <div class="text-center">
+            <a href="/" class="nav-brand text-dark">User Management System</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- /HEADER -->
+  </body>
+</html>
 ```
