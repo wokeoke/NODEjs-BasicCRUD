@@ -172,7 +172,7 @@ index.html
 <!-- MAIN SITE -->
 <main id="site-main">
   <div class="container">
-    <div class="box-nav d-flex-justify-between">
+    <div class="box-nav d-flex justify-between">
       <a href="/add-user" class="border-shadow">
         <span class="text-gradient">New User <i class="fas fa-user"></i></span>
       </a>
@@ -218,4 +218,22 @@ index.html
   </div>
 </main>
 <!-- /MAIN SITE -->
+```
+
+---
+
+#### Styling HTML
+
+- Create style.css
+- forlder assets/css/style.css
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Barlow&family=PT+Sans&display=swap');
+
+:root {
+  --dark: #2b2d42;
+  --light: #adb5bd;
+  --border: #dee2e6;
+  --border-btn: #edf2f4;
+}
 ```
