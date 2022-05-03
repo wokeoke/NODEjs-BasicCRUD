@@ -4,23 +4,29 @@
 
 #### Video Tutorial
 
-```properties
-Complete CRUD Application with Node, Express & MongoDB
+**Complete CRUD Application with Node, Express & MongoDB**
 
+```url
 https://www.youtube.com/watch?v=W1Kttu53qTg&t=5293s
+```
+
+**Github Repo**
+
+```url
+https://github.com/akashyap2013/CRUD_Application_Node
 ```
 
 ---
 
 #### Install Dependencies
 
-```properties
+```sh
 npm install
 ```
 
 #### Start Server
 
-```properties
+```sh
 npm start
 ```
 
@@ -28,7 +34,7 @@ npm start
 
 #### config.env
 
-```properties
+```
 PORT=3000
 ```
 
@@ -634,6 +640,80 @@ app.get('/add-user', (req, res) => {
 app.get('/update-user', (req, res) => {
   res.render('update_user');
 });
+```
+
+---
+
+#### Routes
+
+- **File Structure**
+
+```sh
+root
+│ server.js
+│
+└─ server
+    ├─ routes
+    │   │ router.js
+    │
+    └─ services
+        │ render.js
+```
+
+- **server.js**
+- replace // URL_ROUTES to // load routers
+
+```js
+// load assets
+.
+.
+// load routers
+app.use('/', require('./server/routes/router'));
+```
+
+- **router.js**
+
+```js
+const express = require('express');
+const route = express.Router();
+
+const services = require('../services/render');
+
+/**
+ *  @description Root Route
+ *  @method GET /
+ */
+route.get('/', services.homeRoutes);
+
+/**
+ *  @description add users
+ *  @method GET /add-user
+ */
+route.get('/add-user', services.add_user);
+
+/**
+ *  @description for update user
+ *  @method GET /update-user
+ */
+route.get('/update-user', services.update_user);
+
+module.exports = route;
+```
+
+- **render.js**
+
+```js
+exports.homeRoutes = (req, res) => {
+  res.render('index');
+};
+
+exports.add_user = (req, res) => {
+  res.render('add_user');
+};
+
+exports.update_user = (req, res) => {
+  res.render('update_user');
+};
 ```
 
 ---
