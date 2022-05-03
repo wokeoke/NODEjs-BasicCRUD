@@ -1128,7 +1128,7 @@ exports.homeRoutes = (req, res) => {
 - add **<%= users %>** between closing tag table and form element
 - Refresh the homepage http://localhost:3000/
 
-```js
+```html
 .
 .
 </table>
@@ -1157,7 +1157,7 @@ exports.homeRoutes = (req, res) => {
 - #### \_show.js
 - Path views/include/\_show.js
 
-```js
+```html
 <% for (var i = 0;i < users.length;i++){%>
 <tr>
   <td><%= i + 1%></td>
@@ -1209,3 +1209,52 @@ Terminal
 ```
 
 ---
+
+#### Create New User
+
+- #### \_form.ejs
+- add **action** attribute to pass route.post request from router.js
+
+```html
+<!-- FORM HANDLING -->
+<form action="/api/users" method="POST" id="add_user">...</form>
+```
+
+- #### controller.js
+- **Redirect to homepage** after successfully store data to database
+- res.redirect('/');
+
+```js
+.
+.
+ // SAVE USER IN THE DATABASE
+  user
+    .save(user)
+    .then((data) => {
+      // res.send(data);
+      res.redirect('/');
+    })
+.
+.
+```
+
+- #### \_footer.ejs
+- Path views/include/\_footer.ejs
+- Add custom javascript file to **show alert** after successfully store data to database
+- Add jquery and custom javascript file before \</body>
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>
+```
+
+- #### index.js
+- Path assets/js/index.js
+
+```js
+$('#add_user').submit((e) => {
+  alert('Data Inserted Successfully ');
+});
+```
