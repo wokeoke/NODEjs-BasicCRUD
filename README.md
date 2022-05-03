@@ -226,7 +226,7 @@ index.html
 #### Styling HTML
 
 - Create style.css
-- forlder assets/css/style.css
+- Folder assets/css/style.css
 
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Barlow&family=PT+Sans&display=swap');
@@ -345,4 +345,99 @@ add_user.html
     <!-- /MAIN SITE -->
   </body>
 </html>
+```
+
+---
+
+#### Styling Form
+
+- Folder assets/css/style.css
+
+```css
+style.css
+.
+.
+/* ADD USER & UPDATE USER TEMPLATE */
+#update_user .form-group input[type='text'],
+#add_user .form-group input[type='text'] {
+  width: 100%;
+  padding: 0.6em 1em;
+  margin: 0.5em 0;
+  border: 1px solid var(--border);
+  font-family: 'Barlow', sans-serif;
+  font-size: 1em;
+  border-radius: 0.2em;
+}
+
+/* ADDING STYLE TO RADIO BUTTONS */
+.radio input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+}
+
+.radio input[type='radio'] + .radio-label:before {
+  content: '';
+  background: var(--border-btn);
+  border-radius: 100%;
+  border: 1px solid var(--border);
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  position: relative;
+  top: -0em;
+  margin-right: 0.5em;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
+}
+
+.radio input[type='radio']:checked + .radio-label:before {
+  background-color: #16db93;
+  box-shadow: inset 0 0 0 4px #e9ecef;
+}
+
+.radio input[type='radio']:focus + .radio-label:before {
+  outline: none;
+  border-color: #16db93;
+}
+
+.radio input[type='radio']:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #e9ecef;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+```
+
+- Folder views/add_user.html
+- Add **id** to input element
+- Change label's **for** equal to input's **id**
+
+```html
+add_user.html
+
+<div class="form-group">
+  <label for="gender" class="text-light">Gender</label>
+  <div class="radio inline">
+    <input type="radio" id="radio-2" name="gender" value="Male" />
+    <label for="radio-2" class="radio-label">Male</label>
+  </div>
+  <div class="radio inline">
+    <input type="radio" id="radio-3" name="gender" value="Female" />
+    <label for="radio-3" class="radio-label">Female</label>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="gender" class="text-light">Status</label>
+  <div class="radio inline">
+    <input type="radio" id="radio-4" name="status" value="Active" />
+    <label for="radio-4" class="radio-label">Active</label>
+  </div>
+  <div class="radio inline">
+    <input type="radio" id="radio-5" name="status" value="Inactive" />
+    <label for="radio-5" class="radio-label">Inactive</label>
+  </div>
+</div>
 ```
