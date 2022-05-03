@@ -452,23 +452,23 @@ add_user.html
 
 #### EJS
 
-- **File Structure**
+##### File Structure
 
 ```sh
 root
-└─ views
-    │ add_user.ejs
-    │ index.ejs
-    │ update_user.ejs
-    │
-    └─ include
-        │ _footer.ejs
-        │ _form.ejs
-        │ _header.ejs
-        │ _show.ejs
+└── views
+      │ add_user.ejs
+      │ index.ejs
+      │ update_user.ejs
+      │
+      └── include
+            │ _footer.ejs
+            │ _form.ejs
+            │ _header.ejs
+            │ _show.ejs
 ```
 
-- **index.ejs**
+##### index.ejs
 
 ```html
 <!-- include header -->
@@ -513,7 +513,7 @@ root
 <!-- /include footer -->
 ```
 
-- **\_show.ejs**
+##### \_show.ejs
 
 ```html
 <tr>
@@ -538,7 +538,7 @@ root
 </tr>
 ```
 
-- **add_user.ejs**
+##### add_user.ejs
 
 ```html
 <!-- include header -->
@@ -574,7 +574,7 @@ root
 <!-- /include footer -->
 ```
 
-- **\_form.ejs**
+##### \_form.ejs
 
 ```html
 <!-- FORM HANDLING -->
@@ -622,7 +622,7 @@ root
 </form>
 ```
 
-- **server.js**
+##### server.js
 
 ```js
 // load assets
@@ -646,18 +646,18 @@ app.get('/update-user', (req, res) => {
 
 #### Routes
 
-- **File Structure**
+##### File Structure
 
 ```sh
 root
 │ server.js
 │
-└─ server
-    ├─ routes
-    │   │ router.js
-    │
-    └─ services
-        │ render.js
+└── server
+      ├── routes
+      │     │ router.js
+      │
+      └── services
+            │ render.js
 ```
 
 - **server.js**
@@ -671,7 +671,7 @@ root
 app.use('/', require('./server/routes/router'));
 ```
 
-- **router.js**
+##### router.js
 
 ```js
 const express = require('express');
@@ -700,7 +700,7 @@ route.get('/update-user', services.update_user);
 module.exports = route;
 ```
 
-- **render.js**
+##### render.js
 
 ```js
 exports.homeRoutes = (req, res) => {
@@ -714,6 +714,65 @@ exports.add_user = (req, res) => {
 exports.update_user = (req, res) => {
   res.render('update_user');
 };
+```
+
+---
+
+#### MongoDB
+
+##### File Structure
+
+```sh
+root
+│ config.env
+│ server.js
+│
+└── server
+      │
+      └── database
+            │ connection.js
+```
+
+##### config.env
+
+```
+MONGO_URI=
+```
+
+##### connection.js
+
+```js
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    // mongodb connection string
+    const con = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    });
+
+    console.log(`MongoDB connected : ${con.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+```
+
+##### server.js
+
+```js
+const connectDB = require('./server/database/connection');
+.
+// log request
+.
+// mongodb connection
+connectDB();
 ```
 
 ---
