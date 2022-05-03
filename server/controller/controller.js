@@ -33,16 +33,33 @@ exports.create = (req, res) => {
 
 // retrieve and return all users or retrieve and return a single user
 exports.find = (req, res) => {
-  Userdb.find()
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((error) => {
-      res.status(500).send({
-        message:
-          error.message || 'Error occurres while retriving user information',
+  if (req.query.id) {
+    const id = req.query.id;
+    Userdb.findById(id)
+      .then((data) => {
+        if (!data) {
+          res.status(404).send({ message: `Not found user with id: ${id}` });
+        } else {
+          res.send(data);
+        }
+      })
+      .catch((error) => {
+        res
+          .status(500)
+          .send({ message: `Error retriving user with id: ${id}` });
       });
-    });
+  } else {
+    Userdb.find()
+      .then((user) => {
+        res.send(user);
+      })
+      .catch((error) => {
+        res.status(500).send({
+          message:
+            error.message || 'Error occurres while retriving user information',
+        });
+      });
+  }
 };
 
 // update a new identified user by user id

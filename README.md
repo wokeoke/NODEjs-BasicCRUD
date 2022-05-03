@@ -452,7 +452,7 @@ add_user.html
 
 #### EJS
 
-- ##### File Structure
+- #### File Structure
 
 ```sh
 root
@@ -468,7 +468,7 @@ root
             │ _show.ejs
 ```
 
-- ##### index.ejs
+- #### index.ejs
 
 ```html
 <!-- include header -->
@@ -513,7 +513,7 @@ root
 <!-- /include footer -->
 ```
 
-- ##### \_show.ejs
+- #### \_show.ejs
 
 ```html
 <tr>
@@ -538,7 +538,7 @@ root
 </tr>
 ```
 
-- ##### add_user.ejs
+- #### add_user.ejs
 
 ```html
 <!-- include header -->
@@ -574,7 +574,7 @@ root
 <!-- /include footer -->
 ```
 
-- ##### \_form.ejs
+- #### \_form.ejs
 
 ```html
 <!-- FORM HANDLING -->
@@ -622,7 +622,7 @@ root
 </form>
 ```
 
-- ##### server.js
+- #### server.js
 
 ```js
 // load assets
@@ -646,7 +646,7 @@ app.get('/update-user', (req, res) => {
 
 #### Routes
 
-- ##### File Structure
+- #### File Structure
 
 ```sh
 root
@@ -671,7 +671,7 @@ root
 app.use('/', require('./server/routes/router'));
 ```
 
-- ##### router.js
+- #### router.js
 
 ```js
 const express = require('express');
@@ -700,7 +700,7 @@ route.get('/update-user', services.update_user);
 module.exports = route;
 ```
 
-- ##### render.js
+- #### render.js
 
 ```js
 exports.homeRoutes = (req, res) => {
@@ -720,7 +720,7 @@ exports.update_user = (req, res) => {
 
 #### MongoDB
 
-- ##### File Structure
+- #### File Structure
 
 ```sh
 root
@@ -733,13 +733,13 @@ root
             │ connection.js
 ```
 
-- ##### config.env
+- #### config.env
 
 ```
 MONGO_URI= // mongoDB string
 ```
 
-- ##### connection.js
+- #### connection.js
 
 ```js
 const mongoose = require('mongoose');
@@ -764,7 +764,7 @@ const connectDB = async () => {
 module.exports = connectDB;
 ```
 
-- ##### server.js
+- #### server.js
 
 ```js
 const connectDB = require('./server/database/connection');
@@ -779,7 +779,7 @@ connectDB();
 
 #### API
 
-- ##### File Structure
+- #### File Structure
 
 ```sh
 root
@@ -794,7 +794,7 @@ root
             │ router.js
 ```
 
-- ##### model.js
+- #### model.js
 
 ```js
 const mongoose = require('mongoose');
@@ -818,7 +818,7 @@ const Userdb = mongoose.model('userdb', schema);
 module.exports = Userdb;
 ```
 
-- ##### controller.js
+- #### controller.js
 
 ```js
 var Userdb = require('../model/model');
@@ -844,7 +844,7 @@ exports.delete = (req, res) => {
 };
 ```
 
-- ##### router.js
+- #### router.js
 
 ```js
 .
@@ -862,7 +862,7 @@ route.delete('/api/users/:id', controller.delete);
 
 #### Create New User
 
-- ##### controller.js
+- #### controller.js
 - Create and save new user
 
 ```js
@@ -898,7 +898,7 @@ exports.create = (req, res) => {
 };
 ```
 
-- ##### Postman
+- #### Postman
 - Testing in postman
 
 ```
@@ -921,8 +921,8 @@ Type    : x-www-form-urlencoded
 
 #### Find, Update, & Delete
 
-- ##### controller.js
-- ##### Find all user
+- #### controller.js
+- #### Find all user
 
 ```js
 // retrieve and return all users or retrieve and return a single user
@@ -949,7 +949,7 @@ URL     : http://localhost:3000/api/users
 
 ###
 
-- ##### Update single user
+- #### Update single user
 - Find by id
 - const id = req.params.id
 
@@ -1002,7 +1002,7 @@ URL     : http://localhost:3000/api/users/1a2b3c4d5e
 
 ###
 
-- ##### Delete single user
+- #### Delete single user
 - Find by id
 - const id = req.params.id
 
@@ -1039,5 +1039,65 @@ URL     : http://localhost:3000/api/users/:id
 ```
 URL     : http://localhost:3000/api/users/1a2b3c4d5e
 ```
+
+---
+
+#### Getting Single User
+
+- #### controller.js
+- Get **user id** by **query paramater id**
+- const id = req.query.id
+
+```js
+exports.find = (req, res) => {
+  if (req.query.id) {
+    const id = req.query.id;
+    Userdb.findById(id)
+      .then((data) => {
+        if (!data) {
+          res.status(404).send({ message: `Not found user with id: ${id}` });
+        } else {
+          res.send(data);
+        }
+      })
+      .catch((error) => {
+        res
+          .status(500)
+          .send({ message: `Error retriving user with id: ${id}` });
+      });
+  } else {
+    Userdb.find()
+      .then((user) => {
+        res.send(user);
+      })
+      .catch((error) => {
+        res.status(500).send({
+          message:
+            error.message || 'Error occurres while retriving user information',
+        });
+      });
+  }
+};
+```
+
+- #### Postman
+- Get single user in postman
+
+```
+Method  : GET
+URL     : http://localhost:3000/api/users/?id=:id
+Request : Params
+Type    : Query Params
+```
+
+- example
+
+```
+URL     : http://localhost:3000/api/users/?id=1a2b3c4d5e
+```
+
+| KEY | Value      |
+| --- | ---------- |
+| id  | 1a2b3c4d5e |
 
 ---
