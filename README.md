@@ -859,3 +859,61 @@ route.delete('/api/users/:id', controller.delete);
 ```
 
 ---
+
+#### Create New User
+
+- ##### controller.js
+
+```js
+// create and save new user
+exports.create = (req, res) => {
+  // VALIDATE REQUEST
+  if (!req.body) {
+    res.status(400).send({ message: 'Content can not be empty' });
+    return;
+  }
+
+  // NEW USER
+  const user = new Userdb({
+    name: req.body.name,
+    email: req.body.email,
+    gender: req.body.gender,
+    status: req.body.status,
+  });
+
+  // SAVE USER IN THE DATABASE
+  user
+    .save(user)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message ||
+          'Some error occurred while creating a create operation',
+      });
+    });
+};
+```
+
+- ##### Postman
+- Testing in postman
+
+```
+Method  : POST
+URL     : http://localhost:3000/api/users
+Request : Body
+Type    : x-www-form-urlencoded
+```
+
+- example
+
+| KEY    | Value         |
+| ------ | ------------- |
+| name   | John Doe      |
+| email  | john@demo.com |
+| gender | Male          |
+| status | Active        |
+
+---
