@@ -452,7 +452,7 @@ add_user.html
 
 #### EJS
 
-##### File Structure
+- ##### File Structure
 
 ```sh
 root
@@ -468,7 +468,7 @@ root
             │ _show.ejs
 ```
 
-##### index.ejs
+- ##### index.ejs
 
 ```html
 <!-- include header -->
@@ -513,7 +513,7 @@ root
 <!-- /include footer -->
 ```
 
-##### \_show.ejs
+- ##### \_show.ejs
 
 ```html
 <tr>
@@ -538,7 +538,7 @@ root
 </tr>
 ```
 
-##### add_user.ejs
+- ##### add_user.ejs
 
 ```html
 <!-- include header -->
@@ -574,7 +574,7 @@ root
 <!-- /include footer -->
 ```
 
-##### \_form.ejs
+- ##### \_form.ejs
 
 ```html
 <!-- FORM HANDLING -->
@@ -622,7 +622,7 @@ root
 </form>
 ```
 
-##### server.js
+- ##### server.js
 
 ```js
 // load assets
@@ -646,7 +646,7 @@ app.get('/update-user', (req, res) => {
 
 #### Routes
 
-##### File Structure
+- ##### File Structure
 
 ```sh
 root
@@ -671,7 +671,7 @@ root
 app.use('/', require('./server/routes/router'));
 ```
 
-##### router.js
+- ##### router.js
 
 ```js
 const express = require('express');
@@ -700,7 +700,7 @@ route.get('/update-user', services.update_user);
 module.exports = route;
 ```
 
-##### render.js
+- ##### render.js
 
 ```js
 exports.homeRoutes = (req, res) => {
@@ -720,7 +720,7 @@ exports.update_user = (req, res) => {
 
 #### MongoDB
 
-##### File Structure
+- ##### File Structure
 
 ```sh
 root
@@ -733,13 +733,13 @@ root
             │ connection.js
 ```
 
-##### config.env
+- ##### config.env
 
 ```
-MONGO_URI=
+MONGO_URI= // mongoDB string
 ```
 
-##### connection.js
+- ##### connection.js
 
 ```js
 const mongoose = require('mongoose');
@@ -764,7 +764,7 @@ const connectDB = async () => {
 module.exports = connectDB;
 ```
 
-##### server.js
+- ##### server.js
 
 ```js
 const connectDB = require('./server/database/connection');
@@ -773,6 +773,89 @@ const connectDB = require('./server/database/connection');
 .
 // mongodb connection
 connectDB();
+```
+
+---
+
+#### API
+
+- ##### File Structure
+
+```sh
+root
+└── server
+      ├── controller
+      │     │ controller.js
+      │
+      ├── model
+      │     │ model.js
+      │
+      └── routes
+            │ router.js
+```
+
+- ##### model.js
+
+```js
+const mongoose = require('mongoose');
+
+var schema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  gender: String,
+  status: String,
+});
+
+const Userdb = mongoose.model('userdb', schema);
+
+module.exports = Userdb;
+```
+
+- ##### controller.js
+
+```js
+var Userdb = require('../model/model');
+
+// create and save new user
+exports.create = (req, res) => {
+  res.send('create');
+};
+
+// retrieve and return all users or retrieve and return a single user
+exports.find = (req, res) => {
+  res.send('find');
+};
+
+// update a new identified user by user id
+exports.update = (req, res) => {
+  res.send('update');
+};
+
+// delete a user with specified user id in the request
+exports.delete = (req, res) => {
+  res.send('delete');
+};
+```
+
+- ##### router.js
+
+```js
+.
+const controller = require('../controller/controller');
+.
+.
+// API
+route.post('/api/users', controller.create);
+route.get('/api/users', controller.find);
+route.put('/api/users/:id', controller.update);
+route.delete('/api/users/:id', controller.delete);
 ```
 
 ---
