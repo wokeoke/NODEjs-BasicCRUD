@@ -1101,3 +1101,111 @@ URL     : http://localhost:3000/api/users/?id=1a2b3c4d5e
 | id  | 1a2b3c4d5e |
 
 ---
+
+#### Using API
+
+- #### render.js
+- Path server/services/render.js
+- add **"users"** key value to pass the data from backend
+- **To test the connection**, write: res.render('index', { users: 'New Data' }); and put it **temporarily** in **index.ejs** <%= users %>
+- if there is a word **'New Data'** in the homepage, we are good to go
+
+```js
+const axios = require('axios');
+
+exports.homeRoutes = (req, res) => {
+  // Make get request to /api/users
+  axios
+    .get('http://localhost:3000/api/users')
+    .then((response) => {
+      res.render('index', { users: 'New Data' });
+    })
+    .catch((error) => res.send(error));
+};
+```
+
+- #### index.ejs
+- add **<%= users %>** between closing tag table and form element
+- Refresh the homepage http://localhost:3000/
+
+```js
+.
+.
+</table>
+<%= users %>
+</form>
+```
+
+- #### render.js
+- Complete code
+
+```js
+const axios = require('axios');
+
+exports.homeRoutes = (req, res) => {
+  // Make get request to /api/users
+  axios
+    .get('http://localhost:3000/api/users')
+    .then((response) => {
+      console.log(response.data);
+      res.render('index', { users: response.data });
+    })
+    .catch((error) => res.send(error));
+};
+```
+
+- #### \_show.js
+- Path views/include/\_show.js
+
+```js
+<% for (var i = 0;i < users.length;i++){%>
+<tr>
+  <td><%= i + 1%></td>
+  <td><%= users[i].name%></td>
+  <td><%= users[i].email%></td>
+  <td><%= users[i].gender%></td>
+  <td><%= users[i].status%></td>
+  <td>
+    <a href="/update-user" class="btn border-shadow update">
+      <span class="text-gradient">
+        <i class="fas fa-pencil-alt"></i>
+      </span>
+    </a>
+
+    <a class="btn border-shadow delete">
+      <span class="text-gradient">
+        <i class="fas fa-times"></i>
+      </span>
+    </a>
+  </td>
+</tr>
+<%}%>
+```
+
+- http://localhost:3000/
+- console.log(response.data)
+
+```sh
+Terminal
+
+[
+  {
+    _id: '1a2b3c4d5e',
+    name: 'John Doe',
+    email: 'john@demo.com',
+    gender: 'Male',
+    status: 'Active',
+    __v: 0
+  },
+  {
+    _id: '2b3c4d5e6f',
+    name: 'Jane Doe',
+    email: 'jane@demo.com',
+    gender: 'Female',
+    status: 'Inactive',
+    __v: 0
+  }
+]
+```
+
+---
