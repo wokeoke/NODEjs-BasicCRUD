@@ -1,8 +1,8 @@
-### NODEjs Basic Crud Application
+## NODEjs Basic Crud Application
 
 ---
 
-#### Video Tutorial
+### Video Tutorial
 
 **Complete CRUD Application with Node, Express & MongoDB**
 
@@ -36,11 +36,12 @@ npm start
 
 ```
 PORT=3000
+MONGO_URI=
 ```
 
 ---
 
-#### Project Structure
+### Project Structure
 
 ```sh
 root
@@ -65,7 +66,7 @@ root
 
 ---
 
-#### HTTP Server
+### HTTP Server
 
 ```js
 server.js;
@@ -93,7 +94,7 @@ app.listen(PORT, () => {
 
 ---
 
-#### Modules
+### Modules
 
 ```js
 server.js;
@@ -119,7 +120,7 @@ app.use('/js', express.static(path.resolve(__dirname, './assets/js')));
 
 ---
 
-#### Views
+### Views
 
 - Render index.ejs
 
@@ -166,7 +167,7 @@ index.ejs;
 
 ---
 
-#### Main Section
+### Main Section
 
 - Create dummy index.html
 - Copy content from index.ejs
@@ -229,7 +230,7 @@ index.html
 
 ---
 
-#### Styling HTML
+### Styling HTML
 
 - Create style.css
 - Folder assets/css/style.css
@@ -247,7 +248,7 @@ index.html
 
 ---
 
-#### Table & Form
+### Table & Form
 
 - Create new dummy add_user.html
 - Folder views/add_user.html
@@ -355,7 +356,7 @@ add_user.html
 
 ---
 
-#### Styling Form
+### Styling Form
 
 - Folder assets/css/style.css
 
@@ -450,7 +451,7 @@ add_user.html
 
 ---
 
-#### EJS
+### EJS
 
 - #### File Structure
 
@@ -644,7 +645,7 @@ app.get('/update-user', (req, res) => {
 
 ---
 
-#### Routes
+### Routes
 
 - #### File Structure
 
@@ -718,7 +719,7 @@ exports.update_user = (req, res) => {
 
 ---
 
-#### MongoDB
+### MongoDB
 
 - #### File Structure
 
@@ -777,7 +778,7 @@ connectDB();
 
 ---
 
-#### API
+### API
 
 - #### File Structure
 
@@ -860,7 +861,7 @@ route.delete('/api/users/:id', controller.delete);
 
 ---
 
-#### Create New User
+### Create New User
 
 - #### controller.js
 - Create and save new user
@@ -919,7 +920,7 @@ Type    : x-www-form-urlencoded
 
 ---
 
-#### Find, Update, & Delete
+### Find, Update, & Delete
 
 - #### controller.js
 - #### Find all user
@@ -1042,7 +1043,7 @@ URL     : http://localhost:3000/api/users/1a2b3c4d5e
 
 ---
 
-#### Getting Single User
+### Getting Single User
 
 - #### controller.js
 - Get **user id** by **query paramater id**
@@ -1102,7 +1103,7 @@ URL     : http://localhost:3000/api/users/?id=1a2b3c4d5e
 
 ---
 
-#### Using API
+### Using API
 
 - #### render.js
 - Path server/services/render.js
@@ -1210,7 +1211,7 @@ Terminal
 
 ---
 
-#### Create New User
+### Create New User
 
 - #### \_form.ejs
 - add **action** attribute to pass route.post request from router.js
@@ -1262,7 +1263,7 @@ $('#add_user').submit((e) => {
 
 ---
 
-#### Update User
+### Update User
 
 - #### render.js
 
@@ -1455,3 +1456,38 @@ $('#update_user').submit(function (e) {
 ```
 
 ---
+
+### Delete User
+
+- #### \_show.ejs
+- add **data-id** attribute to pass user id
+- **data-id=<%= users[i].\_id%>**
+
+```js
+<a class="btn border-shadow delete" data-id=<%= users[i]._id%>>
+```
+
+- #### index.js
+
+```js
+// DELETE USER
+if (window.location.pathname == '/') {
+  $ondelete = $('.table tbody td a.delete');
+  $ondelete.click(function () {
+    var id = $(this).attr('data-id');
+    console.log(id);
+
+    var request = {
+      url: `http://localhost:3000/api/users/${id}`,
+      method: 'DELETE',
+    };
+
+    if (confirm('Do you really want to delete this record?')) {
+      $.ajax(request).done(function (response) {
+        alert('Data Deleted Successfully');
+        location.reload();
+      });
+    }
+  });
+}
+```
