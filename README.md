@@ -1254,7 +1254,204 @@ Terminal
 - Path assets/js/index.js
 
 ```js
+// ADD USER
 $('#add_user').submit((e) => {
   alert('Data Inserted Successfully ');
 });
 ```
+
+---
+
+#### Update User
+
+- #### render.js
+
+```js
+exports.update_user = (req, res) => {
+  axios
+    .get('http://localhost:3000/api/users', {
+      params: { id: req.query.id },
+    })
+    .then((userdata) => {
+      res.render('update_user', { user: userdata.data });
+    })
+    .catch((error) => res.send(error));
+};
+```
+
+- #### \_show.ejs
+- **href="/update-user?id=<%= users[i].\_id%>"**
+
+```html
+<a href="/update-user?id=<%= users[i]._id%>" class="btn border-shadow update">
+  <span class="text-gradient">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+</a>
+```
+
+- example
+
+```url
+http://localhost:3000/update-user?id=62714b317a24740a281900ae
+```
+
+- #### update_user.ejs
+- call **user** from render.js
+- value="<%= user.\_id %>"
+
+```js
+// NAME INPUT
+<input
+  type="hidden"
+  name="id"
+  value="<%= user._id %>"
+/>
+
+<input
+  type="text"
+  name="name"
+  value="<%= user.name %>"
+  placeholder="Mark Stoennis"
+/>
+
+// EMAIL INPUT
+<input
+  type="text"
+  name="email"
+  value="<%= user.email %>"
+  placeholder="email@example.com"
+/>
+
+// GENDER INPUT
+<input
+  type="radio"
+  id="radio-2"
+  name="gender"
+  value="Male"
+  <%= user.gender == 'Male' ? 'checked':''%>
+/>
+
+<input
+  type="radio"
+  id="radio-2"
+  name="gender"
+  value="Female"
+  <%= user.gender == 'Female' ? 'checked':''%>
+/>
+
+// STATUS INPUT
+<input
+  type="radio"
+  id="radio-2"
+  name="status"
+  value="Active"
+  <%= user.status == 'Active' ? 'checked':''%>
+/>
+
+<input
+  type="radio"
+  id="radio-2"
+  name="status"
+  value="Inactive"
+  <%= user.status == 'Inactive' ? 'checked':''%>
+/>
+```
+
+- #### index.js
+
+```js
+// UPDATE USER
+$('#update_user').submit(function (e) {
+  e.preventDefault();
+
+  var unindexed_array = $(this).serializeArray();
+  console.log(unindexed_array);
+});
+```
+
+- console.log(unindexed_array);
+
+```log
+(5) [{…}, {…}, {…}, {…}, {…}]
+0:
+name: "id"
+value: "1a2b3c4d5e"
+[[Prototype]]: Object
+1:
+name: "name"
+value: "John Doe"
+[[Prototype]]: Object
+2:
+name: "email"
+value: "john@demo.com"
+[[Prototype]]: Object
+3:
+name: "gender"
+value: "Male"
+[[Prototype]]: Object
+4:
+name: "status"
+value: "Active"
+[[Prototype]]: Object
+length: 5
+```
+
+- use **map** method to pass **unindexed_array to object**
+
+```js
+// UPDATE USER
+$('#update_user').submit(function (e) {
+  e.preventDefault();
+
+  var unindexed_array = $(this).serializeArray();
+  console.log(unindexed_array);
+
+  var data = {};
+  $.map(unindexed_array, function (n, i) {
+    data[n['name']] = n['value'];
+  });
+  console.log(data);
+});
+```
+
+- console.log(data);
+
+```log
+{id: '1a2b3c4d5e', name: 'John Doe', email: 'john@demo.com', gender: 'Male', status: 'Active'}
+email: "john@demo.com"
+gender: "Male"
+id: "1a2b3c4d5e"
+name: "John Doe"
+status: "Active"
+```
+
+- complete code
+
+```js
+// UPDATE USER
+$('#update_user').submit(function (e) {
+  e.preventDefault();
+
+  var unindexed_array = $(this).serializeArray();
+  console.log(unindexed_array);
+
+  var data = {};
+  $.map(unindexed_array, function (n, i) {
+    data[n['name']] = n['value'];
+  });
+  console.log(data);
+
+  var request = {
+    url: `http://localhost:3000/api/users/${data.id}`,
+    method: 'PUT',
+    data: data,
+  };
+
+  $.ajax(request).done(function (response) {
+    alert('Data Updated Successfully');
+  });
+});
+```
+
+---
